@@ -5,10 +5,12 @@ class RandomUser extends Component {
         super();
         this.state = {
             user: [],
+            isLoading: false
         }
     }
 
     componentDidMount() {
+        this.setState({ isLoading: true });
         fetch('https://randomuser.me/api/')
         .then(results => {
             return results.json();
@@ -27,14 +29,20 @@ class RandomUser extends Component {
                 return(userElm)
             });
 
-            this.setState({user: user});
+            this.setState({user: user, isLoading: false});
         })
     }
 
     render() {
+        const { user, isLoading } = this.state;
+
+        if (isLoading) {
+            return <p>Loading...</p>;
+          }
+
         return (
             <div>
-                {this.state.user}
+                {user}
             </div>
         )
     }
