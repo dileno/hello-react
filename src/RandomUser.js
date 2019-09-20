@@ -11,6 +11,7 @@ class RandomUser extends Component {
 
     componentDidMount() {
         this.setState({ isLoading: true });
+        
         fetch('https://randomuser.me/api/')
         .then(results => {
             return results.json();
