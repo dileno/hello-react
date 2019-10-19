@@ -15,7 +15,7 @@ export default function RandomUser() {
                 let user = data.results.map((user) => {
                     let userElm = '';
                     
-                    if (typeof user !== undefined && typeof user.name !== undefined && typeof user.picture != undefined) {
+                    if (typeof user !== undefined && typeof user.name !== undefined && typeof user.picture !== undefined) {
                         userElm = <div key={user}>
                             <h2>{user.name.first} {user.name.last}</h2>
                             <img src={user.picture.large} alt="" />
