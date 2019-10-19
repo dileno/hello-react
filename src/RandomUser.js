@@ -1,21 +1,11 @@
-import React, {Component} from 'react';
+import React, { useState, useEffect } from 'react';
 
-class RandomUser extends Component {
-    constructor() {
-        super();
-        this.state = {
-            user: [],
-            isLoading: false,
-            error: null
-        }
-    }
+export default function RandomUser() {
+    const [user, setUser] = useState([]);
+    const [error, setError] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
-    componentDidMount() {
-        this.setState({ isLoading: true });
-        this.fetchRandomUser();        
-    }
-
-    fetchRandomUser = async() => {
+    async function fetchRandomUser() {
         try {
             await fetch('https://randomuser.me/api/')
             .then(results => {
@@ -31,35 +21,28 @@ class RandomUser extends Component {
                             <img src={user.picture.large} alt="" />
                             </div>;
                     }
-                    
-                    return(userElm)
-                });
 
-                this.setState({user: user, isLoading: false});
+                    return userElm;
+                });
+                setUser(user);
+                setIsLoading(false);
             });
         }
         catch(error) {
-            this.setState({ error: error, isLoading: false });
+            setError(error);
+            setIsLoading(false);
         }
     }
 
-    render() {
-        let { user, isLoading, error } = this.state;
+    useEffect(() => {
+        fetchRandomUser();
+    }, []);
 
-        if (error) {
-            return <p>{error.message}</p>;
-          }
-          
-        if (isLoading) {
-            return <p>Loading...</p>;
-          }
-
-        return (
-            <div>
-                {user}
-            </div>
-        )
-    }
-}
-
-export default RandomUser;
+    return(
+        <div>
+            {error && <p>{error.message}</p>}
+            {isLoading && <p>Loading...</p>}
+            {user}
+        </div>
+    );
+} 
