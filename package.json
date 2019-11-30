@@ -9,6 +9,9 @@
     "react-scripts": "3.0.0",
     "yarn": "^1.17.3"
   },
+  "engines": {
+    "node": "10.15"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
