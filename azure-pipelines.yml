@@ -20,11 +20,17 @@ steps:
     npm run build
   displayName: 'npm install and build'
 
-- task: CopyFiles@2
+- task: PublishPipelineArtifact@1
   inputs:
-    contents: '_buildOutput/**'
-    targetFolder: $(Build.ArtifactStagingDirectory)
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathToPublish: $(Build.ArtifactStagingDirectory)
-    artifactName: dileno.hello-react
+    targetPath: '$(Pipeline.Workspace)'
+    artifact: 'dileno.hello-react'
+    publishLocation: 'pipeline'
+
+# - task: CopyFiles@2
+#   inputs:
+#     contents: '_buildOutput/**'
+#     targetFolder: $(Build.ArtifactStagingDirectory)
+# - task: PublishBuildArtifacts@1
+#   inputs:
+#     pathToPublish: $(Build.ArtifactStagingDirectory)
+#     artifactName: dileno.hello-react
