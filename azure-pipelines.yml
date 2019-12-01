@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-latest'
 
 steps:
 - task: NodeTool@0
@@ -20,11 +20,19 @@ steps:
     npm run build
   displayName: 'npm install and build'
 
-- task: PublishPipelineArtifact@1
+- task: ArchiveFiles@2
+  displayName: 'Archive files'
   inputs:
-    targetPath: '$(Pipeline.Workspace)'
-    artifact: 'dileno.hello-react'
-    publishLocation: 'pipeline'
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)/build'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/artifact.zip'
+    replaceExistingArchive: true
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
 
 # - task: CopyFiles@2
 #   inputs:
